@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/rafsasas/estagio/issues"
   },
-  "homepage": "https://github.com/rafsasas/estagio#readme"
+  "homepage": "https://github.com/rafsasas/estagio#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "pf": "0.0.1",
+    "pg": "^8.5.1"
+  }
 }
