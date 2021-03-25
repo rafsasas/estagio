@@ -1,22 +1,22 @@
 const pg = require('pg');
 
 const config = {
-    host: '<your-db-server-name>.postgres.database.azure.com',
+    host: '172.18.80.45',
     // Do not hard code your username and password.
     // Consider using Node environment variables.
-    user: '<your-db-username>',     
-    password: '<your-password>',
-    database: '<name-of-database>',
+    user: 'renato',     
+    password: '123456',
+    database: 'uberizacao',
     port: 5432,
-    ssl: true
+    
 };
 
 const client = new pg.Client(config);
 
 client.connect(err => {
-    if (err) throw err;
+    if (err) console.log('Error', err);
     else {
-        queryDatabase();
+        console.log('Sucesso')// queryDatabase();
     }
 });
 
