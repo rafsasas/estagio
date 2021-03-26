@@ -1,10 +1,8 @@
-const express = require('express') 
-const server = express()
+const express = require("express");
+const server = express();
 
-server.get('/', (req, res) => {
-    res.send('<h1>Home</h1>')
-})
+server.use(express.json())
 
-server.listen(3001, () => {
-    console.log('dasd')
-})
+server.use("/", require("./routes/user"));
+server.listen(3001);
+
