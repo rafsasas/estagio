@@ -10,11 +10,8 @@ const repository = {
       return users.rows;
 
     } catch (e) {
-      // client.end(console.log("Closed client connection"));
       console.log(e);
-    } finally {
-      // client.end();
-    }
+    } finally {}
   },
   create: async ({name, email, password}) => {
     try {
@@ -28,11 +25,9 @@ const repository = {
 
     }catch (e) {
       console.log(e);
-      // client.end(console.log("Closed  client connection"));
+      
       return false; 
-    } finally {
-      // client.end();
-    }
+    } finally {}
   },
   delete: async ({id}) => {
   try{
@@ -48,11 +43,8 @@ const repository = {
     
   }catch (e) {
     console.log(e);
-    // client.end(console.log("Closed client connection"));
     return false;
-  } finally {
-    // client.end();
-  }
+  } finally {}
 },
   update: async (id,{name, password, email}) => {
     console.log(typeof id)
@@ -64,11 +56,8 @@ const repository = {
 
   } catch (e){
     console.log(e)
-    // client.end(console.log("Closed client connection", e.message));
     return false;
-  } finally {
-    // client.end();
-  }
+  } finally {}
   },
   findById: async (id) => {
     try{ 
@@ -78,11 +67,8 @@ const repository = {
       return user?.rows[0] || null;
 
     }catch (e){
-      // client.end(console.log("Closed client connection"));
       return false;
-    } finally{
-      // client.end();
-    }
+    } finally{}
   },
 }
   
