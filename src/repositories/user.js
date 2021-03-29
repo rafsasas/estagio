@@ -10,10 +10,10 @@ const repository = {
       return users.rows;
 
     } catch (e) {
-      client.end(console.log("Closed client connection"));
+      // client.end(console.log("Closed client connection"));
       console.log(e);
     } finally {
-      client.end();
+      // client.end();
     }
   },
   create: async ({name, email, password}) => {
@@ -28,12 +28,62 @@ const repository = {
 
     }catch (e) {
       console.log(e);
-      client.end(console.log("Closed  client connection"));
+      // client.end(console.log("Closed  client connection"));
       return false; 
     } finally {
-      client.end();
+      // client.end();
     }
-  }
-};
+  },
+  delete: async ({id}) => {
+  try{
+    const query = `delete from user_rafael
+    Where id =  (${id}) `
 
+    const users = await client.query(query);
+    if (users.rowCount <= 0){
+      return false;
+    }
+
+    return true;
+    
+  }catch (e) {
+    console.log(e);
+    // client.end(console.log("Closed client connection"));
+    return false;
+  } finally {
+    // client.end();
+  }
+},
+  update: async (id,{name, password, email}) => {
+    console.log(typeof id)
+    try{
+      const query = `update user_rafael set name = '${name}', email = '${email}', password = '${password}' where id = '${id}'`;
+
+      const user = await client.query(query);
+      return user;
+
+  } catch (e){
+    console.log(e)
+    // client.end(console.log("Closed client connection", e.message));
+    return false;
+  } finally {
+    // client.end();
+  }
+  },
+  findById: async (id) => {
+    try{ 
+      const query = `select * from user_rafael 
+      where id = ${id}`
+      const user = await client.query(query)
+      return user?.rows[0] || null;
+
+    }catch (e){
+      // client.end(console.log("Closed client connection"));
+      return false;
+    } finally{
+      // client.end();
+    }
+  },
+}
+  
 module.exports = repository;

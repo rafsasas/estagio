@@ -1,4 +1,8 @@
+const e = require("express");
+const { user } = require("../database/conexao");
+const { findById } = require("../repositories/user");
 const userRepository = require("../repositories/user");
+const { use } = require("../routes/user");
 
 resource = {
   getAll: async (req, res) => {
@@ -25,8 +29,40 @@ resource = {
       console.log(e)
       return res.status(400).send({ error: "Falha no Registro", err: e.message });
     }
-  }
-    
+  },
+  deleteUser: async (req,res) => {
+    try{
+      const deleted = await userRepository.delete(req.params);
+
+      if (!deleted) {
+        throw new Error('Usuário não existe');
+      }
+
+      console.log(deleted)
+      
+      res.send('Usuário Deletado com Sucesso')
+      
+    }catch(e){
+      return res.status(400).send({error: "Falha ao deletar usuário", err: e.message});
+    }
+  },
+  updateUser: async (req,res) => {
+    try{
+      const {id} = req.params
+      const find = await userRepository.findById(id);
+      
+      if(!find){
+        throw new Error('Usuário não existe');
+      }
+      
+      const updated = await userRepository.update(id , req.body);
+
+      res.send(updated)
+      
+    }catch {
+      return res.status(400).send({error : "Falha ao atualizar usuário" , err: e.message})
+    }
+  },
 };
 
 module.exports = resource;
