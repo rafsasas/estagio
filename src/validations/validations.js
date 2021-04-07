@@ -1,22 +1,34 @@
-const { body, validationResult } = require("express-validator");
+const { body, param } = require("express-validator");
 
-const validationInsert = {
-  validationInsertUser: () => {
-    return [
-      body("email").isEmail(),
-      body("password").isLength({ min: 8 }),
-      body("nome").isLength({ min: 1 }),
-    ];
-  }
-}
-
-const validationDelete = {
-    validationDeleteUser: () => {
+const validations = {
+  
+    validationInsertUser: () => {
+      return [
+        body("email").isEmail(),
+        body("password").isLength({ min: 8 }),
+        body("name").isLength({ min: 1 }),
+      ];
+    },
+  
+  
+  
+      validationDeleteUser: () => {
+          return[
+              param("id").isLength({ min :1 })
+          ];   
+      },
+  
+  
+  
+      validationPutUser: () => {
         return[
-            param("id").isLength({min :1})
-        ]
-    }
-}
+            param("id").isLength({ min: 1 }),
+            body("email").isEmail(),
+            body("password").isLength({ min: 8}),
+            body("name").isLength({ min: 1})
+        ]   
+      }
+};
 
 
-module.exports = validation;
+module.exports = validations;

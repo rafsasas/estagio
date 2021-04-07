@@ -1,74 +1,53 @@
-const client = require('../database/conexao');
+const User = require('../models/user');
+
 
 const repository = {
-  getAll: async () => {
-    try {
-      const query = `select * from user_rafael;`;
-
-      const users = await client.query(query);
-
-      return users.rows;
-
-    } catch (e) {
-      console.log(e);
-    } finally {}
-  },
+  getAll: async () => await User.findAll(),
   create: async ({name, email, password}) => {
     try {
-      const query = `insert into user_rafael ("name", "email", "password", "createAt") values ('${name}', '${email}', '${password}', now())`;
+      
+      const users = await User.create({name,email,password, createAt: new Date()});
 
-      const users = await client.query(query);
-
-      console.log(users);
-
-      return true;
+      return users
 
     }catch (e) {
       console.log(e);
       
       return false; 
-    } finally {}
-  },
+    }
+},
   delete: async ({id}) => {
   try{
-    const query = `delete from user_rafael
-    Where id =  (${id}) `
+    const users = await User.destroy({
+      where:{id}
+    });
 
-    const users = await client.query(query);
-    if (users.rowCount <= 0){
-      return false;
-    }
-
-    return true;
+    return users;
     
   }catch (e) {
     console.log(e);
     return false;
-  } finally {}
+  } 
 },
-  update: async (id,{name, password, email}) => {
-    console.log(typeof id)
+  update: async (id,{name, password, email, active}) => {
     try{
-      const query = `update user_rafael set name = '${name}', email = '${email}', password = '${password}' where id = '${id}'`;
-
-      const user = await client.query(query);
-      return user;
+      
+      const users = await User.update({name, password, email, active, updateAt: new Date()}, {
+        where: {id}
+      });
+      return users;
 
   } catch (e){
     console.log(e)
     return false;
-  } finally {}
-  },
+  } 
+},
   findById: async (id) => {
     try{ 
-      const query = `select * from user_rafael 
-      where id = ${id}`
-      const user = await client.query(query)
-      return user?.rows[0] || null;
-
+      return await User.findByPk(id);
     }catch (e){
       return false;
-    } finally{}
+    } 
   },
 }
   

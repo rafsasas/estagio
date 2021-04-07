@@ -1,22 +1,28 @@
-const pg = require("pg");
+const { Sequelize } = require('sequelize');
+const sequelize = new Sequelize('postgres://renato:123456@172.18.80.45:5432/uberizacao', {
+	dialect: 'postgres',
+	define: {
+		timestamps: false,
+		underscored: false,
+		underscoredAll: false,
+		defaultScope: {
+			attributes: {
+				exclude: ['createdAt', 'updatedAt', 'created_at', 'updated_at'],
+			},
+		},
+	},
+})
 
-const config = {
-  host: "172.18.80.45",
-  // Do not hard code your username and password.
-  // Consider using Node environment variables.
-  user: "renato",
-  password: "123456",
-  database: "uberizacao",
-  port: 5432,
-};
+const connection = async () => {
+	try {
+		await sequelize.authenticate();
+			console.log('Connection has been established successfully.');
+	} catch (error) {
+			console.error('Unable to connect to the database:', error);
+	}      
+}
 
-const client = new pg.Client(config);
+connection();
 
-client.connect((err) => {
-  if (err) console.log("Error", err);
-  else {
-    console.log("Sucesso"); // queryDatabase();
-  }
-});
 
-module.exports = client;
+module.exports = sequelize;

@@ -1,8 +1,5 @@
-const e = require("express");
-const { user } = require("../database/conexao");
-const { findById } = require("../repositories/user");
 const userRepository = require("../repositories/user");
-const { use } = require("../routes/user");
+
 
 resource = {
   getAll: async (req, res) => {
@@ -23,7 +20,7 @@ resource = {
         throw new Error("Não foi possível criar o usuário");
       }
 
-      return res.status(201).send();
+      return res.status(201).send({ created });
       
     } catch (e) {
       console.log(e)
@@ -37,10 +34,8 @@ resource = {
       if (!deleted) {
         throw new Error('Usuário não existe');
       }
-
-      console.log(deleted)
       
-      res.send('Usuário Deletado com Sucesso')
+      res.send({sucesso:"Usuário Deletado"})
       
     }catch(e){
       return res.status(400).send({error: "Falha ao deletar usuário", err: e.message});
@@ -54,12 +49,12 @@ resource = {
       if(!find){
         throw new Error('Usuário não existe');
       }
-      
       const updated = await userRepository.update(id , req.body);
 
-      res.send(updated)
+      res.send({ updated });
       
-    }catch {
+    }catch (e){
+      console.log(e)
       return res.status(400).send({error : "Falha ao atualizar usuário" , err: e.message})
     }
   },
